@@ -161,6 +161,16 @@ extern "C" {
     return db_pointer->db->KeyMayExist(rocksdb::ReadOptions(), key, &value) ? Qtrue : Qfalse;
   }  
 
+  VALUE rocksdb_db_size(VALUE self){
+    rocksdb_pointer* db_pointer;
+    Data_Get_Struct(self, rocksdb_pointer, db_pointer);
+
+    std::string value;
+    db_pointer->db->GetProperty(db_pointer->db->DefaultColumnFamily(), "rocksdb.estimate-num-keys", &value);
+    return rb_enc_str_new(value.data(), value.size(), rb_utf8_encoding());
+  }
+
+
   VALUE rocksdb_db_close(VALUE self){
     rocksdb_pointer* db_pointer;
     Data_Get_Struct(self, rocksdb_pointer, db_pointer);
