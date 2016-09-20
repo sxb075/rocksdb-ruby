@@ -12,6 +12,7 @@ extern "C" {
   VALUE rocksdb_db_delete(VALUE self, VALUE v_key);
   VALUE rocksdb_db_exists(VALUE self, VALUE v_key);
   VALUE rocksdb_db_size(VALUE self);
+  VALUE rocksdb_db_flush(VALUE self);
   VALUE rocksdb_db_close(VALUE self);
   VALUE rocksdb_db_debug(VALUE self);
   VALUE rocksdb_db_new_iterator(VALUE self);

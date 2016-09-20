@@ -35,6 +35,7 @@ extern "C" {
     //std::cout << options.delete_obsolete_files_period_micros << "\n";
 
     options.create_if_missing = true;
+    options.keep_log_file_num = 1;
     if(readonly){
       status = rocksdb::DB::OpenForReadOnly(options, db_file_name, &db);
     }else{
@@ -170,6 +171,14 @@ extern "C" {
     return rb_enc_str_new(value.data(), value.size(), rb_utf8_encoding());
   }
 
+  VALUE rocksdb_db_flush(VALUE self){
+    rocksdb_pointer* db_pointer;
+    rocksdb::Status status;
+    Data_Get_Struct(self, rocksdb_pointer, db_pointer);
+
+    status = db_pointer->db->Flush(rocksdb::FlushOptions());
+    return status.ok() ? Qtrue : Qfalse;
+  }
 
   VALUE rocksdb_db_close(VALUE self){
     rocksdb_pointer* db_pointer;
